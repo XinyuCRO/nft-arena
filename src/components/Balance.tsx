@@ -1,12 +1,13 @@
 /* eslint-disable no-nested-ternary */
 import { formatEther } from "@ethersproject/units";
 import { useWeb3React } from "@web3-react/core";
+import { Web3Provider } from '@ethersproject/providers'
 import { useEffect, useState } from "react";
 
 import logger from "../logger";
 
 export const Balance = function () {
-  const { account, library, chainId } = useWeb3React();
+  const { account, library, chainId } = useWeb3React<Web3Provider>();
   const [balance, setBalance] = useState<number | null>();
 
   useEffect((): any => {
