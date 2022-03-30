@@ -6,7 +6,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install",
     "lint:sol": "npx solhint 'contracts/**/*.sol'",
     "test": "mocha --exit --recursive"
   },
@@ -43,6 +42,7 @@
     "@typescript-eslint/eslint-plugin": "5.17.0",
     "@typescript-eslint/parser": "5.17.0",
     "autoprefixer": "10.4.4",
+    "base64-sol": "^1.1.0",
     "chai": "4.3.6",
     "dotenv": "16.0.0",
     "eslint": "8.12.0",
