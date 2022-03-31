@@ -24,6 +24,10 @@ export type { ERC165 } from "./@openzeppelin/contracts/utils/introspection/ERC16
 export { ERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/ERC165__factory";
 export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC165";
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
+export type { ArenaEvent } from "./contracts/ArenaEvent";
+export { ArenaEvent__factory } from "./factories/contracts/ArenaEvent__factory";
+export type { EventManager } from "./contracts/EventFactory.sol/EventManager";
+export { EventManager__factory } from "./factories/contracts/EventFactory.sol/EventManager__factory";
 export type { Foxcon2022 } from "./contracts/Foxcon2022";
 export { Foxcon2022__factory } from "./factories/contracts/Foxcon2022__factory";
 export type { Migrations } from "./contracts/Migrations";
