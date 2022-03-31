@@ -15,9 +15,9 @@ export const Header = function () {
       </div>
       <div className="flex-none hidden px-2 mx-2 lg:flex">
         <div className="flex items-stretch">
-          <ChainId />
+          {/* <ChainId /> */}
           <Account />
-          <Balance />
+          {/* <Balance /> */}
         </div>
       </div>
     </div>
