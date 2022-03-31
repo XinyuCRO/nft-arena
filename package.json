@@ -8,7 +8,7 @@
     "lint": "next lint",
     "lint:sol": "npx solhint 'contracts/**/*.sol'",
     "test": "mocha --exit --recursive",
-    "sol:build": "npx hardhat compile"
+    "sol:build": "rm -rf src/types && rm -rf src/artifacts &&  npx hardhat compile"
   },
   "dependencies": {
     "@ethersproject/providers": "5.6.2",

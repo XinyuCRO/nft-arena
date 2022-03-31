@@ -56,14 +56,6 @@ declare module "hardhat/types/runtime" {
       name: "EventManager",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.EventManager__factory>;
-    getContractFactory(
-      name: "Foxcon2022",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Foxcon2022__factory>;
-    getContractFactory(
-      name: "Migrations",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Migrations__factory>;
 
     getContractAt(
       name: "Ownable",
@@ -120,16 +112,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.EventManager>;
-    getContractAt(
-      name: "Foxcon2022",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Foxcon2022>;
-    getContractAt(
-      name: "Migrations",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Migrations>;
 
     // default types
     getContractFactory(

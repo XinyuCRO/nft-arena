@@ -4,5 +4,3 @@
 import type * as eventFactorySol from "./EventFactory.sol";
 export type { eventFactorySol };
 export type { ArenaEvent } from "./ArenaEvent";
-export type { Foxcon2022 } from "./Foxcon2022";
-export type { Migrations } from "./Migrations";
