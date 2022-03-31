@@ -31,7 +31,7 @@ export const Header = function () {
       {!account
         ? <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-ghost bg-secondary"
           onClick={() => {
             setActivatingConnector(injected);
             activate(injected);
@@ -40,9 +40,9 @@ export const Header = function () {
           Connect Wallet
         </button>
         : account
-          ? <span className="font-mono cursor-pointer" onClick={() => {
+          ? <button className="font-mono cursor-pointer bg-secondary btn btn-ghost" type="button" onClick={() => {
             deactivate();
-          }}>{account.substring(0, 4)}...{account.substring(account.length - 4)}</span>
+          }}>{account.substring(0, 4)}...{account.substring(account.length - 4)}</button>
           : ""}
     </div>
   </div>
