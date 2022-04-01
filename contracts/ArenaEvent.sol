@@ -24,6 +24,7 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
   string _coverURI;
 
   event TicketBought(address indexed _buyer, uint _tokenId);
+  mapping(address => uint256[]) ticketsMap;
 
   constructor(string memory eventName, string memory eventDescription, uint price, string memory tokenSymbol, uint totalSupply, string memory coverURI) ERC721(eventName, tokenSymbol) {
     _name = eventName;
@@ -52,7 +53,7 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
     return _coverURI;
   }
 
-  function buyTicket() public payable returns(uint tokenId) {
+  function buyTicket() public payable returns(uint256 tokenId) {
 
     require(_tokenIds.current() < _totalSupply, "No more tickets available");
     require(msg.value >= _price, "Not enough CRO");
@@ -60,7 +61,8 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
 
     uint256 newItemId = _tokenIds.current();
 
-    _mint(msg.sender, newItemId);
+    _mint(msg.sender, newItemId); 
+    ticketsMap[msg.sender].push(newItemId);
     _tokenIds.increment();
 
     emit TicketBought(msg.sender, newItemId);
@@ -68,4 +70,9 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
     return newItemId;
   }
 
+  function getTickets() public view returns (uint256[] memory tokenIds) {
+    require(_isActive, "Event is not active");
+    
+    return ticketsMap[msg.sender];
+  }
 }
