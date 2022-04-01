@@ -72,6 +72,8 @@ export const useEventManagerContract = () => {
     if (contractOwner === account) {
       setIsOwner(true);
     }
+
+    return events;
   }, [account, library, fetchEvent])
 
 
@@ -98,7 +100,7 @@ export const useEventManagerContract = () => {
   }, [account, library])
 
   return {
-    events, isOwner, fetchEvents, createEvent, fetchEvent, buyTicket
+    eventManager, events, isOwner, fetchEvents, createEvent, fetchEvent, buyTicket
   }
 
 }
