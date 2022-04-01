@@ -53,8 +53,6 @@ npx hardhat run --network localhost scripts/deploy_event_manager.ts
 
 copy the address of the deployed contract and paste it in the `contractAddress` field in `useEventManagerContract.ts`
 
-```sh
-
 this will deploy the contracts to the local chain
 
 
