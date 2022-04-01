@@ -8,5 +8,5 @@ export interface ArenaEvent {
   totalSupply: ethers.BigNumberish;
   isActive: boolean;
   coverURL: string;
-  soldIds: ethers.BigNumberish[];
+  soldIds: number[];
 }

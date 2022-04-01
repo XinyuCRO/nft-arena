@@ -36,7 +36,7 @@ const Ticket = () => {
 
   return <div className='flex flex-col items-center justify-center'>
     <div className="w-[500px] mt-10 shadow-xl card card-side bg-base-100">
-      <figure><Image src="https://api.lorem.space/image/movie?w=200&h=200" alt="Movie" /></figure>
+      <figure><Image width={300} height={300} src={event.coverURL} alt="cover" /></figure>
       <div className="card-body">
         <h2 className="card-title">{event.name}</h2>
         <p>{event.description}</p>

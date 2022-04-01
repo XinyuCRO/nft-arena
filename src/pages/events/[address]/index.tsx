@@ -28,12 +28,33 @@ const Event = () => {
       if (!meta) {
         return;
       }
+      console.log(meta);
       setEvent({
         ...meta
       })
     })
 
   }, [address, library])
+
+
+  const Ticket = (props: { index: number }) => {
+    if (event.soldIds.includes(props.index)) {
+      return <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="red" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    }
+
+    return selectedIndex === props.index ? <svg onClick={() => {
+      setSelectedIndex(props.index)
+    }} xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="gray" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg> :
+      <svg onClick={() => {
+        setSelectedIndex(props.index)
+      }} xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+  }
 
   if (!event || !event.name) {
     return <div />
@@ -53,7 +74,7 @@ const Event = () => {
       </div>
     }
     <div className="w-[500px] mt-10 shadow-xl card card-side bg-base-100">
-      <figure><Image src={event.coverURL} alt="Cover" /></figure>
+      <figure><Image width={300} height={300} src={event.coverURL} alt="Cover" /></figure>
       <div className="card-body">
         <h2 className="card-title">{event.name}</h2>
         <p>{event.description}</p>
@@ -67,17 +88,8 @@ const Event = () => {
       <div className='grid grid-cols-10 gap-3'>
         {
           [...Array(Number(event.totalSupply.toString())).keys()].map((_, index) => {
-            return <div key={index} className="cursor-pointer" onClick={() => {
-              setSelectedIndex(index)
-            }}>
-              {
-                selectedIndex === index ? <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="gray" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg> :
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-              }
+            return <div key={index} className="cursor-pointer">
+              <Ticket index={index} />
             </div>
           })
         }
