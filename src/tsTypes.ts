@@ -7,4 +7,5 @@ export interface ArenaEvent {
   price: ethers.BigNumberish;
   totalSupply: ethers.BigNumberish;
   isActive: boolean;
+  coverURL: string;
 }

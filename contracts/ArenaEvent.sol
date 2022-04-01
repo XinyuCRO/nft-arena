@@ -21,12 +21,15 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
   address[] _checkedInAddress;
   bool _isActive;
 
+  string _coverURI;
+
   event TicketBought(address indexed _buyer, uint _tokenId);
 
-  constructor(string memory eventName, string memory eventDescription, uint price, string memory tokenSymbol, uint totalSupply) ERC721(eventName, tokenSymbol) {
+  constructor(string memory eventName, string memory eventDescription, uint price, string memory tokenSymbol, uint totalSupply, string memory coverURI) ERC721(eventName, tokenSymbol) {
     _name = eventName;
     _price = price;
     _description = eventDescription;
+    _coverURI = coverURI;
 
     _address = address(this);
     _totalSupply = totalSupply;
@@ -37,8 +40,16 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
     _isActive = true;
   }
 
-  function getMetaData() public view  returns (string memory, string memory, uint, uint256, bool) {
-    return (_name, _description, _price, _totalSupply, _isActive);
+  function getMetaData() public view  returns (string memory, string memory, uint, uint256, bool, string memory) {
+    return (_name, _description, _price, _totalSupply, _isActive, _coverURI);
+  }
+
+  function tokenURI(uint256 tokenId) public view override returns (string memory) {
+    return _coverURI;
+  }
+
+  function _baseURI() internal view override returns (string memory) {
+    return _coverURI;
   }
 
   function buyTicket() public payable returns(uint tokenId) {

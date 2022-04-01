@@ -5,10 +5,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArenaEvent } from "../tsTypes";
 import { ArenaEvent__factory, EventManager__factory } from "../types";
 
-const contractAddress = "0x68B1D87F95878fE05B998F19b66F4baba5De1aed"
+const contractAddress = "0x998abeb3E57409262aE5b751f60747921B33613E"
 
 export interface CreateEventParams {
-  eventName: string, eventDescription: string, price: number, tokenSymbol: string, totalSupply: number
+  eventName: string, eventDescription: string, price: number, tokenSymbol: string, totalSupply: number,
+  coverURI: string,
 }
 
 export const useEventManagerContract = () => {
@@ -47,6 +48,7 @@ export const useEventManagerContract = () => {
           price: metaData[2],
           totalSupply: metaData[3],
           isActive: metaData[4],
+          coverURL: metaData[5],
         }
 
         return e
@@ -68,7 +70,7 @@ export const useEventManagerContract = () => {
       return;
     }
 
-    const tx = await eventManager.createEvent(props.eventName, props.eventDescription, ethers.utils.parseEther(props.price.toString()), props.tokenSymbol, props.totalSupply)
+    const tx = await eventManager.createEvent(props.eventName, props.eventDescription, ethers.utils.parseEther(props.price.toString()), props.tokenSymbol, props.totalSupply, props.coverURI)
     const receipt = await tx.wait()
     const address = receipt.events.filter(e => e.event === "EventCreated")[0].args[0]
     return address;

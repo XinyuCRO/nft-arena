@@ -24,8 +24,8 @@ contract EventManager is Ownable {
         return _events;
     }
 
-    function createEvent(string memory eventName, string memory eventDescription, uint price, string memory tokenSymbol, uint totalSupply) public {
-      ArenaEvent newEvent = new ArenaEvent(eventName, eventDescription, price, tokenSymbol, totalSupply);
+    function createEvent(string memory eventName, string memory eventDescription, uint price, string memory tokenSymbol, uint totalSupply, string memory baseURI) public {
+      ArenaEvent newEvent = new ArenaEvent(eventName, eventDescription, price, tokenSymbol, totalSupply, baseURI);
       _events.push(newEvent);
       emit EventCreated(newEvent._address());
     }

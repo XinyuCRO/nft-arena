@@ -22,6 +22,7 @@ async function main() {
     10000000,
     "TTT",
     100,
+    "https://cdn.lorem.space/images/movie/.cache/500x0/godzilla-kong.jpg",
   )
 
   await createdEvent.wait()
@@ -34,6 +35,7 @@ async function main() {
     10000000,
     "TTT",
     100,
+    "https://cdn.lorem.space/images/movie/.cache/500x0/godzilla-kong.jpg",
   )
 
   await createdEvent.wait()
@@ -45,6 +47,7 @@ async function main() {
     10000000,
     "TTT",
     100,
+    "https://cdn.lorem.space/images/movie/.cache/500x0/godzilla-kong.jpg",
   )
 
   await createdEvent.wait()

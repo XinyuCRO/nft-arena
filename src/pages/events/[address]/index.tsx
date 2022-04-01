@@ -11,6 +11,7 @@ interface EventMeta {
   description: string,
   price: ethers.BigNumber,
   totalSupply: ethers.BigNumber,
+  coverURL: string;
   isActive: boolean
 }
 
@@ -43,7 +44,8 @@ const Event = () => {
         description: meta[1],
         price: meta[2],
         totalSupply: meta[3],
-        isActive: meta[4]
+        isActive: meta[4],
+        coverURL: meta[5],
       })
     })
 
@@ -67,7 +69,7 @@ const Event = () => {
       </div>
     }
     <div className="w-[500px] mt-10 shadow-xl card card-side bg-base-100">
-      <figure><img src="https://api.lorem.space/image/movie?w=200&h=200" alt="Movie" /></figure>
+      <figure><img src={event.coverURL} alt="Cover" /></figure>
       <div className="card-body">
         <h2 className="card-title">{event.name}</h2>
         <p>{event.description}</p>

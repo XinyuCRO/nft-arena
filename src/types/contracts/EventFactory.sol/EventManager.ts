@@ -30,7 +30,7 @@ export interface EventManagerInterface extends utils.Interface {
   functions: {
     "_address()": FunctionFragment;
     "_events(uint256)": FunctionFragment;
-    "createEvent(string,string,uint256,string,uint256)": FunctionFragment;
+    "createEvent(string,string,uint256,string,uint256,string)": FunctionFragment;
     "getEvent(uint256)": FunctionFragment;
     "getEvents()": FunctionFragment;
     "owner()": FunctionFragment;
@@ -57,7 +57,7 @@ export interface EventManagerInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "createEvent",
-    values: [string, string, BigNumberish, string, BigNumberish]
+    values: [string, string, BigNumberish, string, BigNumberish, string]
   ): string;
   encodeFunctionData(
     functionFragment: "getEvent",
@@ -157,6 +157,7 @@ export interface EventManager extends BaseContract {
       price: BigNumberish,
       tokenSymbol: string,
       totalSupply: BigNumberish,
+      baseURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -189,6 +190,7 @@ export interface EventManager extends BaseContract {
     price: BigNumberish,
     tokenSymbol: string,
     totalSupply: BigNumberish,
+    baseURI: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -218,6 +220,7 @@ export interface EventManager extends BaseContract {
       price: BigNumberish,
       tokenSymbol: string,
       totalSupply: BigNumberish,
+      baseURI: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -262,6 +265,7 @@ export interface EventManager extends BaseContract {
       price: BigNumberish,
       tokenSymbol: string,
       totalSupply: BigNumberish,
+      baseURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -298,6 +302,7 @@ export interface EventManager extends BaseContract {
       price: BigNumberish,
       tokenSymbol: string,
       totalSupply: BigNumberish,
+      baseURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

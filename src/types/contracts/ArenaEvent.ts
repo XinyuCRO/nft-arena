@@ -346,7 +346,7 @@ export interface ArenaEvent extends BaseContract {
 
     getMetaData(
       overrides?: CallOverrides
-    ): Promise<[string, string, BigNumber, BigNumber, boolean]>;
+    ): Promise<[string, string, BigNumber, BigNumber, boolean, string]>;
 
     isApprovedForAll(
       owner: string,
@@ -449,7 +449,7 @@ export interface ArenaEvent extends BaseContract {
 
   getMetaData(
     overrides?: CallOverrides
-  ): Promise<[string, string, BigNumber, BigNumber, boolean]>;
+  ): Promise<[string, string, BigNumber, BigNumber, boolean, string]>;
 
   isApprovedForAll(
     owner: string,
@@ -544,7 +544,7 @@ export interface ArenaEvent extends BaseContract {
 
     getMetaData(
       overrides?: CallOverrides
-    ): Promise<[string, string, BigNumber, BigNumber, boolean]>;
+    ): Promise<[string, string, BigNumber, BigNumber, boolean, string]>;
 
     isApprovedForAll(
       owner: string,

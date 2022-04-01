@@ -11,7 +11,8 @@ const EventsPage = () => {
     eventDescription: "",
     price: 0,
     tokenSymbol: "CAR",
-    totalSupply: 0
+    totalSupply: 0,
+    coverURI: "https://cdn.lorem.space/images/movie/.cache/500x0/godzilla-kong.jpg"
   });
 
   const [eventAddress, setEventAddress] = useState('');
