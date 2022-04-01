@@ -24,6 +24,7 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
   string _coverURI;
 
   event TicketBought(address indexed _buyer, uint _tokenId);
+  event CheckedIn(address indexed _user, uint256 _tokenId, bool _isCheckedIn);
 
   struct Ticket {
       uint id;
@@ -101,20 +102,26 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
     return _userTicketMap[msg.sender];
   }
 
-  function checkInTicket(uint256 tokenId) public payable returns (bool checkedIn) {
+  function getMessageHash(uint256 tokenId) public view returns (bytes32) {
+        return keccak256(abi.encodePacked(_address,tokenId));
+    }
+
+  function checkInTicket(uint256 tokenId) public payable {
+    require(msg.sender == _owner, "No permission");
+
     Ticket[] memory tickets = _userTicketMap[msg.sender];
-    require(tickets.length > 0, "Not have any tokens");
-    for (uint i = 0; i < tickets.length; i++){
+    require(tickets.length > 0, "No ticket to check in");
+    for (uint i = 0; i < tickets.length; i++) {
       if(tickets[i].id == tokenId) {
         if (!tickets[i].isCheckedIn) {
           // todo: verify
           tickets[i].isCheckedIn = true;
           delete _userTicketMap[msg.sender][i];
           _userTicketMap[msg.sender].push(tickets[i]);
-        } else {
-          return true;
+          emit CheckedIn(msg.sender, tokenId, true);
         }
       }
     }
+    emit CheckedIn(msg.sender, tokenId, false);
   }
 }
