@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArenaEvent } from "../tsTypes";
 import { ArenaEvent__factory, EventManager__factory } from "../types";
 
-const contractAddress = "0x998abeb3E57409262aE5b751f60747921B33613E"
+const contractAddress = "0x8f86403A4DE0BB5791fa46B8e795C547942fE4Cf"
 
 export interface CreateEventParams {
   eventName: string, eventDescription: string, price: number, tokenSymbol: string, totalSupply: number,
@@ -29,6 +29,29 @@ export const useEventManagerContract = () => {
 
   }, [account, library])
 
+  const fetchEvent = useCallback(async (address: string) => {
+    if (!eventManager) {
+      return;
+    }
+
+    const event = ArenaEvent__factory.connect(address, library.getSigner())
+    const metaData = await event.getMetaData()
+    const soldIds = await event.getSoldTokenIds();
+
+    const detail: ArenaEvent = {
+      address: address,
+      name: metaData[0],
+      description: metaData[1],
+      price: metaData[2],
+      totalSupply: metaData[3],
+      isActive: metaData[4],
+      coverURL: metaData[5],
+      soldIds: soldIds,
+    }
+
+    return detail;
+  }, [account, library])
+
   const fetchEvents = useCallback(async () => {
 
     if (!eventManager) {
@@ -39,30 +62,17 @@ export const useEventManagerContract = () => {
 
     const events = await Promise.all(
       eventsAddress.map(async (event) => {
-        const eventManager = ArenaEvent__factory.connect(event, library.getSigner())
-        const metaData = await eventManager.getMetaData()
-        const e: ArenaEvent = {
-          address: event,
-          name: metaData[0],
-          description: metaData[1],
-          price: metaData[2],
-          totalSupply: metaData[3],
-          isActive: metaData[4],
-          coverURL: metaData[5],
-        }
-
-        return e
+        return fetchEvent(event)
       })
     )
 
     setEvents(events);
 
-
     const contractOwner = await eventManager.owner();
     if (contractOwner === account) {
       setIsOwner(true);
     }
-  }, [account, library])
+  }, [account, library, fetchEvent])
 
 
   const createEvent = useCallback(async (props: CreateEventParams) => {
@@ -76,19 +86,10 @@ export const useEventManagerContract = () => {
     return address;
   }, [account, library])
 
-  const fetchEvent = useCallback(async (address: string) => {
-    if (!eventManager) {
-      return;
-    }
 
-    const event = ArenaEvent__factory.connect(address, library.getSigner())
-    const metaData = await event.getMetaData()
-    return metaData;
-  }, [account, library])
-
-  const buyTicket = useCallback(async (props: { eventAddress: string, price: ethers.BigNumber }) => {
+  const buyTicket = useCallback(async (props: { eventAddress: string, tokenId: number, price: ethers.BigNumberish }) => {
     const event = ArenaEvent__factory.connect(props.eventAddress, library.getSigner())
-    const tx = await event.buyTicket({
+    const tx = await event.buySpecifiedTicket(props.tokenId, {
       value: props.price
     })
     const receipt = await tx.wait();

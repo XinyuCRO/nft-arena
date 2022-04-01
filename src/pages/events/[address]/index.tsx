@@ -5,16 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useEventManagerContract } from '../../../hooks/useEventManagerContract'
-
-interface EventMeta {
-  address: string;
-  name: string,
-  description: string,
-  price: ethers.BigNumber,
-  totalSupply: ethers.BigNumber,
-  coverURL: string;
-  isActive: boolean
-}
+import { ArenaEvent } from '../../../tsTypes'
 
 const Event = () => {
   const router = useRouter()
@@ -26,7 +17,7 @@ const Event = () => {
 
   const [selectedIndex, setSelectedIndex] = useState(undefined);
 
-  const [event, setEvent] = useState<EventMeta>();
+  const [event, setEvent] = useState<ArenaEvent>();
 
   useEffect(() => {
     if (!address || typeof address === 'object') {
@@ -38,13 +29,7 @@ const Event = () => {
         return;
       }
       setEvent({
-        address,
-        name: meta[0],
-        description: meta[1],
-        price: meta[2],
-        totalSupply: meta[3],
-        isActive: meta[4],
-        coverURL: meta[5],
+        ...meta
       })
     })
 
@@ -81,7 +66,7 @@ const Event = () => {
     <div className='flex mt-10'>
       <div className='grid grid-cols-10 gap-3'>
         {
-          [...Array(event.totalSupply.toNumber()).keys()].map((_, index) => {
+          [...Array(Number(event.totalSupply.toString())).keys()].map((_, index) => {
             return <div key={index} className="cursor-pointer" onClick={() => {
               setSelectedIndex(index)
             }}>
@@ -104,12 +89,12 @@ const Event = () => {
         <button className="mt-20 align-bottom bg-white btn text-primary hover:bg-secondary hover:text-white" onClick={() => {
 
           buyTicket({
+            tokenId: selectedIndex,
             eventAddress: event.address,
             price: event.price
           }).then((tokenId) => {
             setTokenId(tokenId);
           })
-
 
         }}>Checkout</button>
       </div>

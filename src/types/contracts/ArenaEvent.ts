@@ -47,6 +47,7 @@ export interface ArenaEventInterface extends utils.Interface {
     "buyTicket()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getMetaData()": FunctionFragment;
+    "getSoldTokenIds()": FunctionFragment;
     "getTickets()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "name()": FunctionFragment;
@@ -77,6 +78,7 @@ export interface ArenaEventInterface extends utils.Interface {
       | "buyTicket"
       | "getApproved"
       | "getMetaData"
+      | "getSoldTokenIds"
       | "getTickets"
       | "isApprovedForAll"
       | "name"
@@ -121,6 +123,10 @@ export interface ArenaEventInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getMetaData",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getSoldTokenIds",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -205,6 +211,10 @@ export interface ArenaEventInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getMetaData",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getSoldTokenIds",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getTickets", data: BytesLike): Result;
@@ -394,6 +404,8 @@ export interface ArenaEvent extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string, string, BigNumber, BigNumber, boolean, string]>;
 
+    getSoldTokenIds(overrides?: CallOverrides): Promise<[BigNumber[]]>;
+
     getTickets(
       overrides?: CallOverrides
     ): Promise<
@@ -515,6 +527,8 @@ export interface ArenaEvent extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[string, string, BigNumber, BigNumber, boolean, string]>;
 
+  getSoldTokenIds(overrides?: CallOverrides): Promise<BigNumber[]>;
+
   getTickets(
     overrides?: CallOverrides
   ): Promise<ArenaEvent.TicketStructOutput[]>;
@@ -623,6 +637,8 @@ export interface ArenaEvent extends BaseContract {
     getMetaData(
       overrides?: CallOverrides
     ): Promise<[string, string, BigNumber, BigNumber, boolean, string]>;
+
+    getSoldTokenIds(overrides?: CallOverrides): Promise<BigNumber[]>;
 
     getTickets(
       overrides?: CallOverrides
@@ -785,6 +801,8 @@ export interface ArenaEvent extends BaseContract {
 
     getMetaData(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getSoldTokenIds(overrides?: CallOverrides): Promise<BigNumber>;
+
     getTickets(overrides?: CallOverrides): Promise<BigNumber>;
 
     isApprovedForAll(
@@ -901,6 +919,8 @@ export interface ArenaEvent extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getMetaData(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getSoldTokenIds(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getTickets(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

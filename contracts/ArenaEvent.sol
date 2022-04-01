@@ -32,6 +32,7 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
 
   mapping(address => Ticket[]) _userTicketMap;
   mapping(uint256 => address) _totalTickets;
+  uint256[] _soldTokenIds;
 
   constructor(string memory eventName, string memory eventDescription, uint price, string memory tokenSymbol, uint totalSupply, string memory coverURI) ERC721(eventName, tokenSymbol) {
     _name = eventName;
@@ -71,6 +72,7 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
 
     _userTicketMap[msg.sender].push(Ticket(newItemId, false));
     _totalTickets[newItemId] = msg.sender;
+    _soldTokenIds.push(newItemId);
     emit TicketBought(msg.sender, newItemId);
     return newItemId;
   }
@@ -85,8 +87,13 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
 
     _userTicketMap[msg.sender].push(Ticket(id, false));
     _totalTickets[id] = msg.sender;
+    _soldTokenIds.push(id);
     emit TicketBought(msg.sender, id);
     return id;
+  }
+
+  function getSoldTokenIds() public view returns(uint256 [] memory) {
+    return _soldTokenIds;
   }
 
   function getTickets() public view returns (Ticket[] memory tickets) {

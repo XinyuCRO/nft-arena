@@ -5,15 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useEventManagerContract } from '../../../hooks/useEventManagerContract'
-
-interface EventMeta {
-  address: string;
-  name: string,
-  description: string,
-  price: ethers.BigNumber,
-  totalSupply: ethers.BigNumber,
-  isActive: boolean
-}
+import { ArenaEvent } from '../../../tsTypes'
 
 const Ticket = () => {
   const router = useRouter()
@@ -22,7 +14,7 @@ const Ticket = () => {
   const { library } = useWeb3React();
 
   const [tokenId, setTokenId] = useState(undefined);
-  const [event, setEvent] = useState<EventMeta>();
+  const [event, setEvent] = useState<ArenaEvent>();
 
   useEffect(() => {
     if (!address || typeof address === 'object') {
@@ -33,14 +25,7 @@ const Ticket = () => {
       if (!meta) {
         return;
       }
-      setEvent({
-        address,
-        name: meta[0],
-        description: meta[1],
-        price: meta[2],
-        totalSupply: meta[3],
-        isActive: meta[4]
-      })
+      setEvent(meta);
     })
 
   }, [address, library])
