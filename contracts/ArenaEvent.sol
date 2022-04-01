@@ -9,7 +9,6 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 contract ArenaEvent is ERC721Enumerable, Ownable {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
-  address _owner;
   address public _address;
   uint public _totalSupply;
 
@@ -35,7 +34,7 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
   mapping(uint256 => address) _totalTickets;
   uint256[] _soldTokenIds;
 
-  constructor(string memory eventName, string memory eventDescription, uint price, string memory tokenSymbol, uint totalSupply, string memory coverURI) ERC721(eventName, tokenSymbol) {
+  constructor(address owner, string memory eventName, string memory eventDescription, uint price, string memory tokenSymbol, uint totalSupply, string memory coverURI) ERC721(eventName, tokenSymbol) {
     _name = eventName;
     _price = price;
     _description = eventDescription;
@@ -43,7 +42,8 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
 
     _address = address(this);
     _totalSupply = totalSupply;
-    _owner = msg.sender;
+
+    transferOwnership(owner);
 
     _issuedAddress = new address[](totalSupply);
     _isActive = true;
@@ -106,22 +106,20 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
         return keccak256(abi.encodePacked(_address,tokenId));
     }
 
-  function checkInTicket(uint256 tokenId) public payable {
-    require(msg.sender == _owner, "No permission");
-
-    Ticket[] memory tickets = _userTicketMap[msg.sender];
+  function checkInTicket(uint256 tokenId, address ticketOwner) public payable onlyOwner {
+    Ticket[] memory tickets = _userTicketMap[ticketOwner];
     require(tickets.length > 0, "No ticket to check in");
     for (uint i = 0; i < tickets.length; i++) {
       if(tickets[i].id == tokenId) {
         if (!tickets[i].isCheckedIn) {
           // todo: verify
           tickets[i].isCheckedIn = true;
-          delete _userTicketMap[msg.sender][i];
-          _userTicketMap[msg.sender].push(tickets[i]);
-          emit CheckedIn(msg.sender, tokenId, true);
+          delete _userTicketMap[ticketOwner][i];
+          _userTicketMap[ticketOwner].push(tickets[i]);
+          emit CheckedIn(ticketOwner, tokenId, true);
         }
       }
     }
-    emit CheckedIn(msg.sender, tokenId, false);
+    emit CheckedIn(ticketOwner, tokenId, false);
   }
 }

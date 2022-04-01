@@ -8,15 +8,16 @@ import hre, { ethers } from "hardhat";
 
 async function main() {
 
+  const [owner] = await hre.ethers.getSigners()
+
   const EventManager = await hre.ethers.getContractFactory("EventManager");
-  const eventManager = await EventManager.deploy()
+  const eventManager = await EventManager.connect(owner).deploy()
   await eventManager.deployed();
   console.log("eventManager deployed to:", eventManager.address);
 
 
-  const [owner] = await hre.ethers.getSigners()
-
   let createdEvent = await eventManager.connect(owner).createEvent(
+    owner.address,
     "some event name",
     "event description",
     10000000,
@@ -28,8 +29,9 @@ async function main() {
   await createdEvent.wait()
   console.log("event created");
 
-
   createdEvent = await eventManager.connect(owner).createEvent(
+
+    owner.address,
     "Some Event",
     "Will happen pretty soon",
     100000000000000,
@@ -42,6 +44,7 @@ async function main() {
   console.log("event created");
 
   createdEvent = await eventManager.connect(owner).createEvent(
+    owner.address,
     "Event with a very long name",
     "Some description",
     100000000000000,
@@ -54,10 +57,14 @@ async function main() {
   console.log("event created");
 
   const events = await eventManager.connect(owner).getEvents()
+  console.log(events);
 
   const Event = await hre.ethers.getContractFactory("ArenaEvent");
   for (let i = 0; i < events.length; i++) {
-    const eventContract = Event.attach(events[i]);
+    const eventContract = Event.connect(owner).attach(events[i]);
+
+    const _owner = await eventContract.owner()
+    console.log(_owner);
 
     await eventContract.buyTicket({
       value: 10000000
@@ -75,7 +82,7 @@ async function main() {
     const hash = await eventContract.getMessageHash(23);
     console.log(`MessageHash: ${hash}`)
 
-    const checkInResult = await eventContract.checkInTicket(23);
+    const checkInResult = await eventContract.checkInTicket(23, owner.address);
     await checkInResult.wait()
     console.log(checkInResult)
 
