@@ -35,6 +35,10 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
     _isActive = true;
   }
 
+  function getMetaData() public view  returns (string memory, string memory, uint, uint256, bool) {
+    return (_name, _description, _price, _totalSupply, _isActive);
+  }
+
   function buyTicket() public payable returns(uint tokenId) {
 
     require(_tokenIds.current() < _totalSupply, "No more tickets available");

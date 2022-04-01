@@ -35,6 +35,7 @@ export interface ArenaEventInterface extends utils.Interface {
     "balanceOf(address)": FunctionFragment;
     "buyTicket()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getMetaData()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
@@ -61,6 +62,7 @@ export interface ArenaEventInterface extends utils.Interface {
       | "balanceOf"
       | "buyTicket"
       | "getApproved"
+      | "getMetaData"
       | "isApprovedForAll"
       | "name"
       | "owner"
@@ -93,6 +95,10 @@ export interface ArenaEventInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getMetaData",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
@@ -160,6 +166,10 @@ export interface ArenaEventInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "buyTicket", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getMetaData",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -321,6 +331,10 @@ export interface ArenaEvent extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getMetaData(
+      overrides?: CallOverrides
+    ): Promise<[string, string, BigNumber, BigNumber, boolean]>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -420,6 +434,10 @@ export interface ArenaEvent extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getMetaData(
+    overrides?: CallOverrides
+  ): Promise<[string, string, BigNumber, BigNumber, boolean]>;
+
   isApprovedForAll(
     owner: string,
     operator: string,
@@ -510,6 +528,10 @@ export interface ArenaEvent extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getMetaData(
+      overrides?: CallOverrides
+    ): Promise<[string, string, BigNumber, BigNumber, boolean]>;
 
     isApprovedForAll(
       owner: string,
@@ -647,6 +669,8 @@ export interface ArenaEvent extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getMetaData(overrides?: CallOverrides): Promise<BigNumber>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -749,6 +773,8 @@ export interface ArenaEvent extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getMetaData(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     isApprovedForAll(
       owner: string,
