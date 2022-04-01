@@ -71,6 +71,15 @@ async function main() {
     
     const tickets = await eventContract.getTickets()
     console.log(`Bought ticket: ${tickets}`);
+
+
+    const checkInResult = await eventContract.checkInTicket(23);
+    await checkInResult.wait()
+    console.log(checkInResult)
+
+    const tickets1 = await eventContract.getTickets()
+    console.log(`Bought ticket: ${tickets1}`);
+
   }
 }
 
