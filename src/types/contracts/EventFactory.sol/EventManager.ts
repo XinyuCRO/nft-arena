@@ -93,11 +93,20 @@ export interface EventManagerInterface extends utils.Interface {
   ): Result;
 
   events: {
+    "EventCreated(address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "EventCreated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
+
+export interface EventCreatedEventObject {
+  eventAddress: string;
+}
+export type EventCreatedEvent = TypedEvent<[string], EventCreatedEventObject>;
+
+export type EventCreatedEventFilter = TypedEventFilter<EventCreatedEvent>;
 
 export interface OwnershipTransferredEventObject {
   previousOwner: string;
@@ -210,7 +219,7 @@ export interface EventManager extends BaseContract {
       tokenSymbol: string,
       totalSupply: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<void>;
 
     getEvent(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -227,6 +236,11 @@ export interface EventManager extends BaseContract {
   };
 
   filters: {
+    "EventCreated(address)"(
+      eventAddress?: string | null
+    ): EventCreatedEventFilter;
+    EventCreated(eventAddress?: string | null): EventCreatedEventFilter;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null

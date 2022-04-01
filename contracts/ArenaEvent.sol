@@ -21,6 +21,8 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
   address[] _checkedInAddress;
   bool _isActive;
 
+  event TicketBought(address indexed _buyer, uint _tokenId);
+
   constructor(string memory eventName, string memory eventDescription, uint price, string memory tokenSymbol, uint totalSupply) ERC721(eventName, tokenSymbol) {
     _name = eventName;
     _price = price;
@@ -49,6 +51,8 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
 
     _mint(msg.sender, newItemId);
     _tokenIds.increment();
+
+    emit TicketBought(msg.sender, newItemId);
 
     return newItemId;
   }

@@ -3,56 +3,20 @@ import { useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useEventManagerContract } from "../../hooks/useEventManagerContract";
 import { ArenaEvent } from "../../tsTypes";
 import { ArenaEvent__factory, EventManager, EventManager__factory } from "../../types";
 
 const EventsPage = () => {
   const { account, library, chainId } = useWeb3React<Web3Provider>();
-  const [isOwner, setIsOwner] = useState(false);
 
-  const [events, setEvents] = useState<ArenaEvent[]>([]);
+  const { events, isOwner, fetchEvents } = useEventManagerContract();
 
   useEffect(() => {
     if (!account || !library) {
-      setIsOwner(false);
       return;
     }
-
-    const fetch = async () => {
-
-      // use json rpc with out signer
-
-      const eventManager = EventManager__factory.connect("0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9", library.getSigner())
-      const eventsAddress = await eventManager.getEvents()
-
-      const events = await Promise.all(
-        eventsAddress.map(async (event) => {
-          const eventManager = ArenaEvent__factory.connect(event, library.getSigner())
-          const metaData = await eventManager.getMetaData()
-          const e: ArenaEvent = {
-            address: event,
-            name: metaData[0],
-            description: metaData[1],
-            price: metaData[2],
-            totalSupply: metaData[3],
-            isActive: metaData[4],
-          }
-
-          return e
-        })
-      )
-
-      setEvents(events);
-
-
-      const contractOwner = await eventManager.owner();
-      if (contractOwner === account) {
-        setIsOwner(true);
-      }
-    }
-
-    fetch();
-
+    fetchEvents();
   }, [account, library])
 
   return <div className="mt-5 text-white">

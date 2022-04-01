@@ -226,12 +226,14 @@ export interface ArenaEventInterface extends utils.Interface {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
+    "TicketBought(address,uint256)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TicketBought"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -270,6 +272,17 @@ export type OwnershipTransferredEvent = TypedEvent<
 
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
+
+export interface TicketBoughtEventObject {
+  _buyer: string;
+  _tokenId: BigNumber;
+}
+export type TicketBoughtEvent = TypedEvent<
+  [string, BigNumber],
+  TicketBoughtEventObject
+>;
+
+export type TicketBoughtEventFilter = TypedEventFilter<TicketBoughtEvent>;
 
 export interface TransferEventObject {
   from: string;
@@ -634,6 +647,15 @@ export interface ArenaEvent extends BaseContract {
       previousOwner?: string | null,
       newOwner?: string | null
     ): OwnershipTransferredEventFilter;
+
+    "TicketBought(address,uint256)"(
+      _buyer?: string | null,
+      _tokenId?: null
+    ): TicketBoughtEventFilter;
+    TicketBought(
+      _buyer?: string | null,
+      _tokenId?: null
+    ): TicketBoughtEventFilter;
 
     "Transfer(address,address,uint256)"(
       from?: string | null,

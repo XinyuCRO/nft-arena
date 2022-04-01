@@ -9,6 +9,8 @@ contract EventManager is Ownable {
     address public _address;
     ArenaEvent[] public _events;
 
+    event EventCreated(address indexed eventAddress);
+
     constructor() {
         _address = address(this);
         _events = new ArenaEvent[](0);
@@ -22,10 +24,10 @@ contract EventManager is Ownable {
         return _events;
     }
 
-    function createEvent(string memory eventName, string memory eventDescription, uint price, string memory tokenSymbol, uint totalSupply) public  returns (uint) {
+    function createEvent(string memory eventName, string memory eventDescription, uint price, string memory tokenSymbol, uint totalSupply) public {
       ArenaEvent newEvent = new ArenaEvent(eventName, eventDescription, price, tokenSymbol, totalSupply);
       _events.push(newEvent);
-      return _events.length - 1;
+      emit EventCreated(newEvent._address());
     }
 
 }
