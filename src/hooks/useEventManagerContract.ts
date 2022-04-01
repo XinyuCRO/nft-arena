@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArenaEvent } from "../tsTypes";
 import { ArenaEvent__factory, EventManager__factory } from "../types";
 
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+const contractAddress = "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
 
 export interface CreateEventParams {
   eventName: string, eventDescription: string, price: number, tokenSymbol: string, totalSupply: number,
@@ -93,7 +93,7 @@ export const useEventManagerContract = () => {
       return;
     }
 
-    const tx = await eventManager.createEvent(props.eventName, props.eventDescription, ethers.utils.parseEther(props.price.toString()), props.tokenSymbol, props.totalSupply, props.coverURI)
+    const tx = await eventManager.createEvent(account, props.eventName, props.eventDescription, ethers.utils.parseEther(props.price.toString()), props.tokenSymbol, props.totalSupply, props.coverURI)
     const receipt = await tx.wait()
     const address = receipt.events.filter(e => e.event === "EventCreated")[0].args[0]
     return address;
@@ -118,8 +118,17 @@ export const useEventManagerContract = () => {
     return signedHash;
   }, [account, library])
 
+  const checkIn = useCallback(async (props: { event: string, tokenId: number, owner: string }) => {
+    const event = ArenaEvent__factory.connect(props.event, library.getSigner());
+    // TODO: check in
+    const tx = await event.checkInTicket(props.tokenId, props.owner);
+    await tx.wait()
+
+    return tx.hash;
+  }, [account, library])
+
   return {
-    eventManager, events, isOwner, fetchEvents, createEvent, fetchEvent, buyTicket, getSignedSignature
+    eventManager, events, isOwner, fetchEvents, createEvent, fetchEvent, buyTicket, getSignedSignature, checkIn
   }
 
 }

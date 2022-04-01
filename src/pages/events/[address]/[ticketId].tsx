@@ -44,8 +44,7 @@ const Ticket = () => {
     return <div />
   }
 
-  return <div className='flex flex-col items-center justify-center'>
-
+  return <div className='flex flex-col items-center justify-center bg-white'>
     <div className="mt-10 shadow-xl card card-side bg-base-100">
       <figure><Image width={300} height={300} src={event.coverURL} alt="cover" /></figure>
       <div className="card-body">
@@ -57,9 +56,9 @@ const Ticket = () => {
       </div>
     </div>
     {
-      qrValue && <QRCode className='mt-10' value={qrValue} />
+      qrValue && <QRCode className='m-10 mt-10 bg-white' value={qrValue} />
     }
-    <div className='mt-10'>
+    <div className='mt-10 bg-white'>
       <button className="text-black bg-white btn hover:bg-secondary hover:text-white" onClick={() => {
         getSignedSignature({ eventAddress: event.address, tokenId: Number(ticketId) }).then((signature) => {
 

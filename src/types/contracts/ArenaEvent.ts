@@ -44,7 +44,7 @@ export interface ArenaEventInterface extends utils.Interface {
     "balanceOf(address)": FunctionFragment;
     "buySpecifiedTicket(uint256)": FunctionFragment;
     "buyTicket()": FunctionFragment;
-    "checkInTicket(uint256)": FunctionFragment;
+    "checkInTicket(uint256,address)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getMessageHash(uint256)": FunctionFragment;
     "getMetaData()": FunctionFragment;
@@ -117,7 +117,7 @@ export interface ArenaEventInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "buyTicket", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "checkInTicket",
-    values: [BigNumberish]
+    values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
@@ -416,6 +416,7 @@ export interface ArenaEvent extends BaseContract {
 
     checkInTicket(
       tokenId: BigNumberish,
+      ticketOwner: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -544,6 +545,7 @@ export interface ArenaEvent extends BaseContract {
 
   checkInTicket(
     tokenId: BigNumberish,
+    ticketOwner: string,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -660,6 +662,7 @@ export interface ArenaEvent extends BaseContract {
 
     checkInTicket(
       tokenId: BigNumberish,
+      ticketOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -841,6 +844,7 @@ export interface ArenaEvent extends BaseContract {
 
     checkInTicket(
       tokenId: BigNumberish,
+      ticketOwner: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -965,6 +969,7 @@ export interface ArenaEvent extends BaseContract {
 
     checkInTicket(
       tokenId: BigNumberish,
+      ticketOwner: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

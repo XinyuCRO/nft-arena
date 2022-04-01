@@ -30,8 +30,8 @@ import type {
 export interface EventManagerInterface extends utils.Interface {
   functions: {
     "_address()": FunctionFragment;
-    "checkInTicket(address,uint256)": FunctionFragment;
-    "createEvent(string,string,uint256,string,uint256,string)": FunctionFragment;
+    "checkInTicket(address,uint256,address)": FunctionFragment;
+    "createEvent(address,string,string,uint256,string,uint256,string)": FunctionFragment;
     "getEvent(address)": FunctionFragment;
     "getEvents()": FunctionFragment;
     "owner()": FunctionFragment;
@@ -54,11 +54,11 @@ export interface EventManagerInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "_address", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "checkInTicket",
-    values: [string, BigNumberish]
+    values: [string, BigNumberish, string]
   ): string;
   encodeFunctionData(
     functionFragment: "createEvent",
-    values: [string, string, BigNumberish, string, BigNumberish, string]
+    values: [string, string, string, BigNumberish, string, BigNumberish, string]
   ): string;
   encodeFunctionData(functionFragment: "getEvent", values: [string]): string;
   encodeFunctionData(functionFragment: "getEvents", values?: undefined): string;
@@ -153,10 +153,12 @@ export interface EventManager extends BaseContract {
     checkInTicket(
       eventAddress: string,
       tokenId: BigNumberish,
+      ticketOwner: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     createEvent(
+      owner: string,
       eventName: string,
       eventDescription: string,
       price: BigNumberish,
@@ -190,10 +192,12 @@ export interface EventManager extends BaseContract {
   checkInTicket(
     eventAddress: string,
     tokenId: BigNumberish,
+    ticketOwner: string,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   createEvent(
+    owner: string,
     eventName: string,
     eventDescription: string,
     price: BigNumberish,
@@ -224,10 +228,12 @@ export interface EventManager extends BaseContract {
     checkInTicket(
       eventAddress: string,
       tokenId: BigNumberish,
+      ticketOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
     createEvent(
+      owner: string,
       eventName: string,
       eventDescription: string,
       price: BigNumberish,
@@ -273,10 +279,12 @@ export interface EventManager extends BaseContract {
     checkInTicket(
       eventAddress: string,
       tokenId: BigNumberish,
+      ticketOwner: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     createEvent(
+      owner: string,
       eventName: string,
       eventDescription: string,
       price: BigNumberish,
@@ -311,10 +319,12 @@ export interface EventManager extends BaseContract {
     checkInTicket(
       eventAddress: string,
       tokenId: BigNumberish,
+      ticketOwner: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     createEvent(
+      owner: string,
       eventName: string,
       eventDescription: string,
       price: BigNumberish,
