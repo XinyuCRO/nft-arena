@@ -17,7 +17,7 @@ async function main() {
   const [owner] = await hre.ethers.getSigners()
 
   let createdEvent = await eventManager.connect(owner).createEvent(
-    "event name",
+    "",
     "event description",
     10000000,
     "TTT",
@@ -30,9 +30,9 @@ async function main() {
 
 
   createdEvent = await eventManager.connect(owner).createEvent(
-    "event name",
-    "event description",
-    10000000,
+    "Some Event",
+    "Will happen pretty soon",
+    100000000000000,
     "TTT",
     100,
     "https://cdn.lorem.space/images/movie/.cache/500x0/godzilla-kong.jpg",
@@ -42,9 +42,9 @@ async function main() {
   console.log("event created");
 
   createdEvent = await eventManager.connect(owner).createEvent(
-    "event name",
-    "event description",
-    10000000,
+    "Event with a very long name",
+    "Some description",
+    100000000000000,
     "TTT",
     100,
     "https://cdn.lorem.space/images/movie/.cache/500x0/godzilla-kong.jpg",
@@ -56,7 +56,7 @@ async function main() {
   const events = await eventManager.connect(owner).getEvents()
 
   const Event = await hre.ethers.getContractFactory("ArenaEvent");
-  for(let i = 0; i < events.length; i++) {
+  for (let i = 0; i < events.length; i++) {
     const eventContract = Event.attach(events[i]);
 
     await eventContract.buyTicket({
@@ -68,7 +68,7 @@ async function main() {
       value: 10000000
     });
     await createdEvent.wait();
-    
+
     const tickets = await eventContract.getTickets()
     console.log(`Bought ticket: ${tickets}`);
 
