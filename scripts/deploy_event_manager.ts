@@ -4,7 +4,7 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 // eslint-disable-next-line import/no-extraneous-dependencies
-import hre from "hardhat";
+import hre, { ethers } from "hardhat";
 
 async function main() {
 
@@ -52,6 +52,26 @@ async function main() {
 
   await createdEvent.wait()
   console.log("event created");
+
+  const events = await eventManager.connect(owner).getEvents()
+
+  const Event = await hre.ethers.getContractFactory("ArenaEvent");
+  for(let i = 0; i < events.length; i++) {
+    const eventContract = Event.attach(events[i]);
+
+    await eventContract.buyTicket({
+      value: 10000000
+    });
+    await createdEvent.wait();
+
+    await eventContract.buySpecifiedTicket(23, {
+      value: 10000000
+    });
+    await createdEvent.wait();
+    
+    const tickets = await eventContract.getTickets()
+    console.log(`Bought ticket: ${tickets}`);
+  }
 }
 
 // We recommend this pattern to be able to use async/await everywhere
