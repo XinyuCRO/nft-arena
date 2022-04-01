@@ -18,13 +18,20 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
   uint _price;
 
   address[] _issuedAddress;
-  address[] _checkedInAddress;
   bool _isActive;
+
 
   string _coverURI;
 
   event TicketBought(address indexed _buyer, uint _tokenId);
-  mapping(address => uint256[]) ticketsMap;
+
+  struct Ticket {
+      uint id;
+      bool isCheckedIn;
+  }
+
+  mapping(address => Ticket[]) _userTicketMap;
+  mapping(uint256 => address) _totalTickets;
 
   constructor(string memory eventName, string memory eventDescription, uint price, string memory tokenSymbol, uint totalSupply, string memory coverURI) ERC721(eventName, tokenSymbol) {
     _name = eventName;
@@ -37,7 +44,6 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
     _owner = msg.sender;
 
     _issuedAddress = new address[](totalSupply);
-    _checkedInAddress = new address[](totalSupply);
     _isActive = true;
   }
 
@@ -54,7 +60,6 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
   }
 
   function buyTicket() public payable returns(uint256 tokenId) {
-
     require(_tokenIds.current() < _totalSupply, "No more tickets available");
     require(msg.value >= _price, "Not enough CRO");
     require(_isActive, "Event is not active");
@@ -62,17 +67,45 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
     uint256 newItemId = _tokenIds.current();
 
     _mint(msg.sender, newItemId); 
-    ticketsMap[msg.sender].push(newItemId);
     _tokenIds.increment();
 
+    _userTicketMap[msg.sender].push(Ticket(newItemId, false));
+    _totalTickets[newItemId] = msg.sender;
     emit TicketBought(msg.sender, newItemId);
-
     return newItemId;
   }
 
-  function getTickets() public view returns (uint256[] memory tokenIds) {
+  function buySpecifiedTicket(uint256 id) public payable returns(uint256 tokenId) {
+    require(id < _totalSupply, "Exceed total supply");
+    require(msg.value >= _price, "Not enough CRO");
     require(_isActive, "Event is not active");
-    
-    return ticketsMap[msg.sender];
+    require(_totalTickets[id] == address(0), "Already sold");
+
+    _mint(msg.sender, id);
+
+    _userTicketMap[msg.sender].push(Ticket(id, false));
+    _totalTickets[id] = msg.sender;
+    emit TicketBought(msg.sender, id);
+    return id;
+  }
+
+  function getTickets() public view returns (Ticket[] memory tickets) {
+    require(_isActive, "Event is not active");
+    return _userTicketMap[msg.sender];
+  }
+
+  function addCheckedInTickets(uint256 tokenId) public payable returns (bool checkedIn) {
+    Ticket[] memory tickets = _userTicketMap[msg.sender];
+    require(tickets.length > 0, "Not have any tokens");
+    for (uint i = 0; i < tickets.length; i++){
+      if(tickets[i].id == tokenId) {
+        if (!tickets[i].isCheckedIn) {
+          // todo: verify
+          tickets[i].isCheckedIn = true;
+        } else {
+          return true;
+        }
+      }
+    }
   }
 }
