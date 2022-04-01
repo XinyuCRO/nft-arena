@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArenaEvent } from "../tsTypes";
 import { ArenaEvent__factory, EventManager__factory } from "../types";
 
-const contractAddress = "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d"
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
 export interface CreateEventParams {
   eventName: string, eventDescription: string, price: number, tokenSymbol: string, totalSupply: number,
@@ -28,6 +28,17 @@ export const useEventManagerContract = () => {
     return eventManager;
 
   }, [account, library])
+
+  useEffect(() => {
+    if (!eventManager) {
+      return;
+    }
+
+    eventManager.owner().then(ownerAddr => {
+      setIsOwner(ownerAddr === account);
+    })
+
+  }, [eventManager])
 
   const fetchEvent = useCallback(async (address: string) => {
     if (!eventManager) {

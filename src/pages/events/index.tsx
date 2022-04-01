@@ -28,9 +28,9 @@ const EventsPage = () => {
         </div>
       </Link>
     }
-    <div className="grid grid-cols-3 gap-4 mt-10">
+    <div className="flex flex-col items-center mt-10 lg:grid lg:grid-cols-3 lg:gap-4">
       {events.map((event) => {
-        return <div key={event.address} className="text-gray-800 shadow-xl card card-compact bg-base-100">
+        return <div key={event.address} className="w-[300px] mb-10 text-gray-800 shadow-xl card bg-base-100">
           <figure><Image width={300} height={300} src={event.coverURL} alt="cover" /></figure>
           <div className="card-body">
             <h2 className="card-title">{event.name}</h2>

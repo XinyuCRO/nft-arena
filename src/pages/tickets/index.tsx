@@ -62,9 +62,9 @@ const EventsPage = () => {
 
 
   return <div className="text-white">
-    <div className="grid grid-cols-3 gap-4 mt-10">
+    <div className="flex flex-col items-center mt-10 lg:grid lg:grid-cols-3 lg:gap-4">
       {tickets.map((t) => {
-        return <div key={`${t.event}${t.ticketId}`} className="text-gray-800 shadow-xl card card-compact bg-base-100">
+        return <div key={`${t.event}${t.ticketId}`} className="w-[300px] text-gray-800 shadow-xl card card-compact bg-base-100 mb-10">
           <figure><Image width={300} height={300} src={t.eventMeta.coverURL} alt="cover" /></figure>
           <div className="card-body">
             <h2 className="card-title">{t.eventMeta.name}</h2>

@@ -21,7 +21,7 @@ const Index = function () {
           <div className="space-y-10">
             <div className="text-6xl font-bold tracking-wide text-white uppercase">Next Level Ticketing</div>
             <Link href="/events">
-              <button className="bg-white btn btn-outline hover:bg-secondary hover:text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg">Browse Events</button>
+              <button className="bg-white btn btn-outline hover:bg-secondary hover:text-white btn-xs btn-lg">Browse Events</button>
             </Link>
           </div>
         </div>

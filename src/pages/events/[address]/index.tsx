@@ -73,7 +73,7 @@ const Event = () => {
         </div>
       </div>
     }
-    <div className="w-[500px] mt-10 shadow-xl card card-side bg-base-100">
+    <div className=" lg:w-[500px] mt-10 shadow-xl card card-side bg-base-100">
       <figure><Image width={300} height={300} src={event.coverURL} alt="Cover" /></figure>
       <div className="card-body">
         <h2 className="card-title">{event.name}</h2>
@@ -84,7 +84,7 @@ const Event = () => {
         </div>
       </div>
     </div>
-    <div className='flex mt-10'>
+    <div className='flex flex-col mt-10 lg:flex-row'>
       <div className='grid grid-cols-10 gap-3'>
         {
           [...Array(Number(event.totalSupply.toString())).keys()].map((_, index) => {
