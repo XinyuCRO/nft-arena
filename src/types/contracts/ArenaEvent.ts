@@ -40,11 +40,11 @@ export interface ArenaEventInterface extends utils.Interface {
   functions: {
     "_address()": FunctionFragment;
     "_totalSupply()": FunctionFragment;
-    "addCheckedInTickets(uint256)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "buySpecifiedTicket(uint256)": FunctionFragment;
     "buyTicket()": FunctionFragment;
+    "checkInTicket(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getMetaData()": FunctionFragment;
     "getTickets()": FunctionFragment;
@@ -70,11 +70,11 @@ export interface ArenaEventInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "_address"
       | "_totalSupply"
-      | "addCheckedInTickets"
       | "approve"
       | "balanceOf"
       | "buySpecifiedTicket"
       | "buyTicket"
+      | "checkInTicket"
       | "getApproved"
       | "getMetaData"
       | "getTickets"
@@ -102,10 +102,6 @@ export interface ArenaEventInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "addCheckedInTickets",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
@@ -115,6 +111,10 @@ export interface ArenaEventInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "buyTicket", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "checkInTicket",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
@@ -188,10 +188,6 @@ export interface ArenaEventInterface extends utils.Interface {
     functionFragment: "_totalSupply",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "addCheckedInTickets",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
@@ -199,6 +195,10 @@ export interface ArenaEventInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "buyTicket", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "checkInTicket",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
@@ -363,11 +363,6 @@ export interface ArenaEvent extends BaseContract {
 
     _totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    addCheckedInTickets(
-      tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -382,6 +377,11 @@ export interface ArenaEvent extends BaseContract {
     ): Promise<ContractTransaction>;
 
     buyTicket(
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    checkInTicket(
+      tokenId: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -484,11 +484,6 @@ export interface ArenaEvent extends BaseContract {
 
   _totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
-  addCheckedInTickets(
-    tokenId: BigNumberish,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   approve(
     to: string,
     tokenId: BigNumberish,
@@ -503,6 +498,11 @@ export interface ArenaEvent extends BaseContract {
   ): Promise<ContractTransaction>;
 
   buyTicket(
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  checkInTicket(
+    tokenId: BigNumberish,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -595,11 +595,6 @@ export interface ArenaEvent extends BaseContract {
 
     _totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
-    addCheckedInTickets(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -614,6 +609,11 @@ export interface ArenaEvent extends BaseContract {
     ): Promise<BigNumber>;
 
     buyTicket(overrides?: CallOverrides): Promise<BigNumber>;
+
+    checkInTicket(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -756,11 +756,6 @@ export interface ArenaEvent extends BaseContract {
 
     _totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
-    addCheckedInTickets(
-      tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -775,6 +770,11 @@ export interface ArenaEvent extends BaseContract {
     ): Promise<BigNumber>;
 
     buyTicket(
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    checkInTicket(
+      tokenId: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -870,11 +870,6 @@ export interface ArenaEvent extends BaseContract {
 
     _totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    addCheckedInTickets(
-      tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -892,6 +887,11 @@ export interface ArenaEvent extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     buyTicket(
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    checkInTicket(
+      tokenId: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

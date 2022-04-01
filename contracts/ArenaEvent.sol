@@ -94,7 +94,7 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
     return _userTicketMap[msg.sender];
   }
 
-  function addCheckedInTickets(uint256 tokenId) public payable returns (bool checkedIn) {
+  function checkInTicket(uint256 tokenId) public payable returns (bool checkedIn) {
     Ticket[] memory tickets = _userTicketMap[msg.sender];
     require(tickets.length > 0, "Not have any tokens");
     for (uint i = 0; i < tickets.length; i++){
@@ -102,6 +102,8 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
         if (!tickets[i].isCheckedIn) {
           // todo: verify
           tickets[i].isCheckedIn = true;
+          delete _userTicketMap[msg.sender][i];
+          _userTicketMap[msg.sender].push(tickets[i]);
         } else {
           return true;
         }
