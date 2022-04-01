@@ -46,6 +46,7 @@ export interface ArenaEventInterface extends utils.Interface {
     "buyTicket()": FunctionFragment;
     "checkInTicket(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getMessageHash(uint256)": FunctionFragment;
     "getMetaData()": FunctionFragment;
     "getSoldTokenIds()": FunctionFragment;
     "getTickets()": FunctionFragment;
@@ -77,6 +78,7 @@ export interface ArenaEventInterface extends utils.Interface {
       | "buyTicket"
       | "checkInTicket"
       | "getApproved"
+      | "getMessageHash"
       | "getMetaData"
       | "getSoldTokenIds"
       | "getTickets"
@@ -119,6 +121,10 @@ export interface ArenaEventInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getMessageHash",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -210,6 +216,10 @@ export interface ArenaEventInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getMessageHash",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getMetaData",
     data: BytesLike
   ): Result;
@@ -271,6 +281,7 @@ export interface ArenaEventInterface extends utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "CheckedIn(address,uint256,bool)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "TicketBought(address,uint256)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
@@ -278,6 +289,7 @@ export interface ArenaEventInterface extends utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CheckedIn"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TicketBought"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
@@ -306,6 +318,18 @@ export type ApprovalForAllEvent = TypedEvent<
 >;
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
+
+export interface CheckedInEventObject {
+  _user: string;
+  _tokenId: BigNumber;
+  _isCheckedIn: boolean;
+}
+export type CheckedInEvent = TypedEvent<
+  [string, BigNumber, boolean],
+  CheckedInEventObject
+>;
+
+export type CheckedInEventFilter = TypedEventFilter<CheckedInEvent>;
 
 export interface OwnershipTransferredEventObject {
   previousOwner: string;
@@ -396,6 +420,11 @@ export interface ArenaEvent extends BaseContract {
     ): Promise<ContractTransaction>;
 
     getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    getMessageHash(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
@@ -523,6 +552,11 @@ export interface ArenaEvent extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getMessageHash(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   getMetaData(
     overrides?: CallOverrides
   ): Promise<[string, string, BigNumber, BigNumber, boolean, string]>;
@@ -627,9 +661,14 @@ export interface ArenaEvent extends BaseContract {
     checkInTicket(
       tokenId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<void>;
 
     getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    getMessageHash(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
@@ -737,6 +776,17 @@ export interface ArenaEvent extends BaseContract {
       approved?: null
     ): ApprovalForAllEventFilter;
 
+    "CheckedIn(address,uint256,bool)"(
+      _user?: string | null,
+      _tokenId?: null,
+      _isCheckedIn?: null
+    ): CheckedInEventFilter;
+    CheckedIn(
+      _user?: string | null,
+      _tokenId?: null,
+      _isCheckedIn?: null
+    ): CheckedInEventFilter;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -795,6 +845,11 @@ export interface ArenaEvent extends BaseContract {
     ): Promise<BigNumber>;
 
     getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getMessageHash(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -914,6 +969,11 @@ export interface ArenaEvent extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getMessageHash(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

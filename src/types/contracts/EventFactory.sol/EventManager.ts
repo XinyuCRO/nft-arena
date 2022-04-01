@@ -9,6 +9,7 @@ import type {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -29,9 +30,9 @@ import type {
 export interface EventManagerInterface extends utils.Interface {
   functions: {
     "_address()": FunctionFragment;
-    "_events(uint256)": FunctionFragment;
+    "checkInTicket(address,uint256)": FunctionFragment;
     "createEvent(string,string,uint256,string,uint256,string)": FunctionFragment;
-    "getEvent(uint256)": FunctionFragment;
+    "getEvent(address)": FunctionFragment;
     "getEvents()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -41,7 +42,7 @@ export interface EventManagerInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "_address"
-      | "_events"
+      | "checkInTicket"
       | "createEvent"
       | "getEvent"
       | "getEvents"
@@ -52,17 +53,14 @@ export interface EventManagerInterface extends utils.Interface {
 
   encodeFunctionData(functionFragment: "_address", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "_events",
-    values: [BigNumberish]
+    functionFragment: "checkInTicket",
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "createEvent",
     values: [string, string, BigNumberish, string, BigNumberish, string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "getEvent",
-    values: [BigNumberish]
-  ): string;
+  encodeFunctionData(functionFragment: "getEvent", values: [string]): string;
   encodeFunctionData(functionFragment: "getEvents", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -75,7 +73,10 @@ export interface EventManagerInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "_address", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "_events", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "checkInTicket",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "createEvent",
     data: BytesLike
@@ -149,7 +150,11 @@ export interface EventManager extends BaseContract {
   functions: {
     _address(overrides?: CallOverrides): Promise<[string]>;
 
-    _events(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
+    checkInTicket(
+      eventAddress: string,
+      tokenId: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     createEvent(
       eventName: string,
@@ -162,7 +167,7 @@ export interface EventManager extends BaseContract {
     ): Promise<ContractTransaction>;
 
     getEvent(
-      tokenId: BigNumberish,
+      eventAddress: string,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
@@ -182,7 +187,11 @@ export interface EventManager extends BaseContract {
 
   _address(overrides?: CallOverrides): Promise<string>;
 
-  _events(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+  checkInTicket(
+    eventAddress: string,
+    tokenId: BigNumberish,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   createEvent(
     eventName: string,
@@ -194,7 +203,7 @@ export interface EventManager extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  getEvent(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+  getEvent(eventAddress: string, overrides?: CallOverrides): Promise<string>;
 
   getEvents(overrides?: CallOverrides): Promise<string[]>;
 
@@ -212,7 +221,11 @@ export interface EventManager extends BaseContract {
   callStatic: {
     _address(overrides?: CallOverrides): Promise<string>;
 
-    _events(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+    checkInTicket(
+      eventAddress: string,
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     createEvent(
       eventName: string,
@@ -224,7 +237,7 @@ export interface EventManager extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    getEvent(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+    getEvent(eventAddress: string, overrides?: CallOverrides): Promise<string>;
 
     getEvents(overrides?: CallOverrides): Promise<string[]>;
 
@@ -257,7 +270,11 @@ export interface EventManager extends BaseContract {
   estimateGas: {
     _address(overrides?: CallOverrides): Promise<BigNumber>;
 
-    _events(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+    checkInTicket(
+      eventAddress: string,
+      tokenId: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
     createEvent(
       eventName: string,
@@ -270,7 +287,7 @@ export interface EventManager extends BaseContract {
     ): Promise<BigNumber>;
 
     getEvent(
-      tokenId: BigNumberish,
+      eventAddress: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -291,9 +308,10 @@ export interface EventManager extends BaseContract {
   populateTransaction: {
     _address(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    _events(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
+    checkInTicket(
+      eventAddress: string,
+      tokenId: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     createEvent(
@@ -307,7 +325,7 @@ export interface EventManager extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getEvent(
-      tokenId: BigNumberish,
+      eventAddress: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
