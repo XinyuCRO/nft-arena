@@ -1,5 +1,6 @@
 import { useWeb3React } from '@web3-react/core'
 import { ethers } from 'ethers'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -50,7 +51,7 @@ const Ticket = () => {
 
   return <div className='flex flex-col items-center justify-center'>
     <div className="w-[500px] mt-10 shadow-xl card card-side bg-base-100">
-      <figure><img src="https://api.lorem.space/image/movie?w=200&h=200" alt="Movie" /></figure>
+      <figure><Image src="https://api.lorem.space/image/movie?w=200&h=200" alt="Movie" /></figure>
       <div className="card-body">
         <h2 className="card-title">{event.name}</h2>
         <p>{event.description}</p>

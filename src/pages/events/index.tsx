@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useEventManagerContract } from "../../hooks/useEventManagerContract";
+import Image from 'next/image';
 import { ArenaEvent } from "../../tsTypes";
 import { ArenaEvent__factory, EventManager, EventManager__factory } from "../../types";
 
@@ -30,7 +31,7 @@ const EventsPage = () => {
     <div className="grid grid-cols-3 gap-4 mt-10">
       {events.map((event) => {
         return <div key={event.address} className="text-gray-800 shadow-xl card card-compact bg-base-100">
-          <figure><img src={event.coverURL} alt="cover" /></figure>
+          <figure><Image src={event.coverURL} alt="cover" /></figure>
           <div className="card-body">
             <h2 className="card-title">{event.name}</h2>
             <p>{event.description}</p>
