@@ -33,30 +33,27 @@ yarn test
 yarn sol:build
 ```
 
-## Hardhat guideline
 
-This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
+## Development using local chain 
 
-The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
+First, start the local chain,
 
-Try running some of the following tasks:
-
-```shell
-npx hardhat accounts
-npx hardhat compile --network localhost
-npx hardhat clean
-npx hardhat test
+```sh
 npx hardhat node
-npx hardhat help
-REPORT_GAS=true npx hardhat test
-npx hardhat coverage
-npx hardhat run scripts/deploy_greeter.ts --network localhost
-node scripts/deploy.ts
-npx eslint '**/*.ts'
-npx eslint '**/*.ts' --fix
-npx prettier '**/*.{json,sol,md}' --check
-npx prettier '**/*.{json,sol,md}' --write
-npx solhint 'contracts/**/*.sol'
-npx solhint 'contracts/**/*.sol' --fix
 ```
+
+it will log some accounts which hardhad use to deploy, choose the first one, copy the private key and import it with MetaMask, and make sure your MetaMask is connecting with localhost:8545
+
+
+Open a new terminal and run the following command:
+
+```sh
+npx hardhat run --network localhost scripts/deploy_event_manager.ts
+```
+
+this will deploy the contracts to the local chain
+
+
+And that's all, go to the frontend and check event list, there should be some created by deploy script.
+
 
