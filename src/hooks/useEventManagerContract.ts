@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArenaEvent } from "../tsTypes";
 import { ArenaEvent__factory, EventManager__factory } from "../types";
 
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+const contractAddress = "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d"
 
 export interface CreateEventParams {
   eventName: string, eventDescription: string, price: number, tokenSymbol: string, totalSupply: number,
@@ -99,8 +99,16 @@ export const useEventManagerContract = () => {
     return tokenId
   }, [account, library])
 
+  const getSignedSignature = useCallback(async (props: { eventAddress: string, tokenId: number }) => {
+    const event = ArenaEvent__factory.connect(props.eventAddress, library.getSigner());
+    const hash = await event.getMessageHash(props.tokenId);
+
+    const signedHash = await library.getSigner().signMessage(hash);
+    return signedHash;
+  }, [account, library])
+
   return {
-    eventManager, events, isOwner, fetchEvents, createEvent, fetchEvent, buyTicket
+    eventManager, events, isOwner, fetchEvents, createEvent, fetchEvent, buyTicket, getSignedSignature
   }
 
 }

@@ -6,15 +6,25 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useEventManagerContract } from '../../../hooks/useEventManagerContract'
 import { ArenaEvent } from '../../../tsTypes'
+import QRCode from "react-qr-code";
+
+interface QRContent {
+  event: string;
+  ticketId: number;
+  owner: string;
+  signature: string;
+}
 
 const Ticket = () => {
   const router = useRouter()
   const { address, ticketId } = router.query
-  const { fetchEvent, buyTicket } = useEventManagerContract()
-  const { library } = useWeb3React();
+  const { fetchEvent, buyTicket, getSignedSignature } = useEventManagerContract()
+  const { library, account } = useWeb3React();
 
   const [tokenId, setTokenId] = useState(undefined);
   const [event, setEvent] = useState<ArenaEvent>();
+
+  const [qrValue, setQRValue] = useState('');
 
   useEffect(() => {
     if (!address || typeof address === 'object') {
@@ -30,11 +40,12 @@ const Ticket = () => {
 
   }, [address, library])
 
-  if (!event || !event.name) {
+  if (!event || !event.name || typeof ticketId === 'object') {
     return <div />
   }
 
   return <div className='flex flex-col items-center justify-center'>
+
     <div className="w-[500px] mt-10 shadow-xl card card-side bg-base-100">
       <figure><Image width={300} height={300} src={event.coverURL} alt="cover" /></figure>
       <div className="card-body">
@@ -44,6 +55,23 @@ const Ticket = () => {
           <p>ID: {ticketId}</p>
         </div>
       </div>
+    </div>
+    {
+      qrValue && <QRCode className='mt-10' value={qrValue} />
+    }
+    <div className='mt-10'>
+      <button className="text-black bg-white btn hover:bg-secondary hover:text-white" onClick={() => {
+        getSignedSignature({ eventAddress: event.address, tokenId: Number(ticketId) }).then((signature) => {
+
+          const content: QRContent = {
+            owner: account,
+            event: event.address,
+            ticketId: Number(ticketId),
+            signature: signature
+          }
+          setQRValue(JSON.stringify(content));
+        });
+      }}>Show QR Code</button>
     </div>
   </div>
 }

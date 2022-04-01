@@ -17,7 +17,7 @@ async function main() {
   const [owner] = await hre.ethers.getSigners()
 
   let createdEvent = await eventManager.connect(owner).createEvent(
-    "",
+    "some event name",
     "event description",
     10000000,
     "TTT",
@@ -74,7 +74,7 @@ async function main() {
 
     const hash = await eventContract.getMessageHash(23);
     console.log(`MessageHash: ${hash}`)
-    
+
     const checkInResult = await eventContract.checkInTicket(23);
     await checkInResult.wait()
     console.log(checkInResult)
