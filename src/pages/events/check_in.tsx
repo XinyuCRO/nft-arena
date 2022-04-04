@@ -91,11 +91,10 @@ const CheckIn = () => {
       />
       <p>{data}</p>
     </>
-    <div className='mt-10'>
+    <div className='m-10'>
       <button className="text-black bg-white btn hover:bg-secondary hover:text-white">Scan QR Code</button>
     </div>
   </div>
 }
-
 
 export default CheckIn;

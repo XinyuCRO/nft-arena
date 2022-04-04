@@ -18,13 +18,13 @@ export const Header = function () {
   const activating = (connection: typeof injected | typeof walletconnect) => connection === activatingConnector;
   const connected = (connection: typeof injected | typeof walletconnect) => connection === connector;
 
-  return <div className="rounded-2xl navbar bg-primary text-primary-content">
+  return <div className="rounded-2xl navbar bg-blue-400 text-primary-content">
     <div className="navbar-start">
       <div className="bg-black dropdown">
-        <label tabIndex="0" className="bg-black btn btn-ghost lg:hidden">
+        <label tabIndex="0" className="bg-blue-400 btn btn-ghost lg:hidden">
           <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
         </label>
-        <ul tabIndex="0" className="p-2 mt-3 bg-black shadow menu menu-compact dropdown-content rounded-box w-52">
+        <ul tabIndex="0" className="p-2 mt-3 bg-blue-400 shadow menu menu-compact dropdown-content rounded-box w-52">
           <li><Link href="/events">Events</Link></li>
           <li><Link href="/tickets">My Tickets</Link></li>
           {
@@ -33,7 +33,9 @@ export const Header = function () {
         </ul>
       </div>
       <Link href="/" >
-        <a className="text-xl tracking-wide normal-case btn btn-ghost">Arena NFT</a>
+        <a className="text-xl tracking-wide normal-case btn btn-ghost">
+          <img src="arena.png" style={{ width: '135px'}} />
+        </a>
       </Link>
     </div>
     <div className="hidden navbar-center lg:flex">

@@ -58,7 +58,7 @@ const Ticket = () => {
     {
       qrValue && <QRCode className='m-10 mt-10 bg-white' value={qrValue} />
     }
-    <div className='mt-10 bg-white'>
+    <div className='m-10 bg-white'>
       <button className="text-black bg-white btn hover:bg-secondary hover:text-white" onClick={() => {
         getSignedSignature({ eventAddress: event.address, tokenId: Number(ticketId) }).then((signature) => {
 
