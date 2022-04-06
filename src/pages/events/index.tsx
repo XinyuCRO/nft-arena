@@ -28,16 +28,16 @@ const EventsPage = () => {
         </div>
       </Link>
     }
-    <div className="flex flex-col items-center mt-10 lg:grid lg:grid-cols-3 lg:gap-4">
+    <div className="flex flex-col mt-10 lg:grid lg:grid-cols-3 lg:gap-4">
       {events.map((event) => {
-        return <div key={event.address} className="w-[300px] mb-10 text-gray-800 shadow-xl card bg-base-100">
-          <figure><Image width={300} height={300} objectFit='contain' src={event.coverURL} alt="cover" /></figure>
-          <div className="card-body">
-            <h2 className="card-title">{event.name}</h2>
-            <p>{event.description}</p>
-            <p>{ethers.utils.formatEther(event.price)} CRO</p>
-            <p>Total {event.totalSupply.toString()}</p>
-            <div className="justify-end card-actions">
+        return <div key={event.address} className="w-[300px] h-[600px] mb-10 text-gray-800 shadow-xl card bg-base-100">
+          <figure className="flex-none"><Image width={300} height={300} objectFit='contain' src={event.coverURL} alt="cover" /></figure>
+          <div className="flex h-[300px] card-body">
+            <h2 className="flex-none card-title">{event.name}</h2>
+            <p className="overflow-hidden shrink">{event.description}</p>
+            <p className="flex-none">{ethers.utils.formatEther(event.price)} CRO</p>
+            <p className="flex-none">Total {event.totalSupply.toString()}</p>
+            <div className="justify-end flex-none card-actions">
               <Link href={`/events/${event.address}`}>
                 <button className="btn btn-primary hover:bg-secondary">Order Now</button>
               </Link>

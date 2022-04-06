@@ -62,23 +62,20 @@ const EventsPage = () => {
 
 
   return <div className="text-white">
-    <div className="flex flex-col items-center mt-10 lg:grid lg:grid-cols-3 lg:gap-4">
+    <div className="flex flex-col mt-10 lg:grid lg:grid-cols-3 lg:gap-4">
       {tickets.map((t) => {
-        return <div key={`${t.event}${t.ticketId}`} className="w-[300px] text-gray-800 shadow-xl card card-compact bg-base-100 mb-10">
-          <figure><Image width={300} height={300} objectFit='contain' src={t.eventMeta.coverURL} alt="cover" /></figure>
-          <div className="card-body">
+        return <div key={`${t.event}${t.ticketId}`} className="w-[300px] h-[600px] mb-10 text-gray-800 shadow-xl card bg-base-100">
+          <figure className="flex-none"><Image width={300} height={300} objectFit='contain' src={t.eventMeta.coverURL} alt="cover" /></figure>
+          <div className="flex h-[300px] card-body">
             {
-              t.hasCheckedIn ? <h2 className="text-2xl line-through card-tile">{t.eventMeta.name}</h2> : <h2 className="card-title">{t.eventMeta.name}</h2>
+              t.hasCheckedIn ? <h2 className="flex-none text-2xl line-through card-tile">{t.eventMeta.name}</h2> : <h2 className="flex-none card-title">{t.eventMeta.name}</h2>
             }
-            <p>{t.eventMeta.description}</p>
-            <p>{ethers.utils.formatEther(t.eventMeta.price)} CRO</p>
-            <p>No. {t.ticketId}</p>
-            <div className="justify-end card-actions">
+            <p className="overflow-hidden shrink">{t.eventMeta.description}</p>
+            <p className="flex-none">{ethers.utils.formatEther(t.eventMeta.price)} CRO</p>
+            <p className="flex-none">No. {t.ticketId}</p>
+            <div className="flex flex-row items-center justify-center space-x-2">
               <Link href={`/events/${t.eventMeta.address}/${t.ticketId}`}>
                 <button className="btn btn-primary hover:bg-secondary">Check Detail</button>
-              </Link>
-              <Link href={`/events/${t.eventMeta.address}`}>
-                <button className="btn btn-primary hover:bg-secondary">Goto Event</button>
               </Link>
             </div>
           </div>
