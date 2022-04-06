@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArenaEvent } from "../tsTypes";
 import { ArenaEvent__factory, EventManager__factory } from "../types";
 
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+const contractAddress = "0xCA8c8688914e0F7096c920146cd0Ad85cD7Ae8b9"
 
 export interface CreateEventParams {
   eventName: string, eventDescription: string, price: number, tokenSymbol: string, totalSupply: number,

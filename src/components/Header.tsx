@@ -2,10 +2,13 @@
 import { useWeb3React } from "@web3-react/core";
 import { useState } from "react";
 
-import { injected, walletconnect, POLLING_INTERVAL } from "../dapp/connectors";
+import { injected, walletconnect, POLLING_INTERVAL, network } from "../dapp/connectors";
 import { Web3Provider } from "@ethersproject/providers";
 import Link from "next/link";
 import { useEventManagerContract } from "../hooks/useEventManagerContract";
+import { message } from "antd";
+import { NetworkConnector } from "@web3-react/network-connector";
+import { InjectedConnector } from "@web3-react/injected-connector";
 
 export const Header = function () {
   const context = useWeb3React<Web3Provider>();
@@ -54,7 +57,9 @@ export const Header = function () {
           className="btn btn-ghost bg-secondary"
           onClick={() => {
             setActivatingConnector(injected);
-            activate(injected);
+            activate(injected, error => {
+              alert('please switch to cornos testnet in the wallet')
+            });
           }}
         >
           Connect Wallet

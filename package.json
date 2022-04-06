@@ -8,7 +8,8 @@
     "lint": "next lint",
     "lint:sol": "npx solhint 'contracts/**/*.sol'",
     "test": "mocha --exit --recursive",
-    "sol:build": "rm -rf src/types && rm -rf src/artifacts &&  npx hardhat compile"
+    "sol:build": "rm -rf src/types && rm -rf src/artifacts &&  npx hardhat compile",
+    "deploy:cronostestnet": "npx hardhat run --network cronostestnet ./scripts/deploy.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
