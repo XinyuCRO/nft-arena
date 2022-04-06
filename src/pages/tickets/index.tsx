@@ -65,7 +65,7 @@ const EventsPage = () => {
     <div className="flex flex-col items-center mt-10 lg:grid lg:grid-cols-3 lg:gap-4">
       {tickets.map((t) => {
         return <div key={`${t.event}${t.ticketId}`} className="w-[300px] text-gray-800 shadow-xl card card-compact bg-base-100 mb-10">
-          <figure><Image width={300} height={300} src={t.eventMeta.coverURL} alt="cover" /></figure>
+          <figure><Image width={300} height={300} objectFit='contain' src={t.eventMeta.coverURL} alt="cover" /></figure>
           <div className="card-body">
             {
               t.hasCheckedIn ? <h2 className="text-2xl line-through card-tile">{t.eventMeta.name}</h2> : <h2 className="card-title">{t.eventMeta.name}</h2>

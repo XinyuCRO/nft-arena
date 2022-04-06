@@ -31,7 +31,7 @@ const EventsPage = () => {
     <div className="flex flex-col items-center mt-10 lg:grid lg:grid-cols-3 lg:gap-4">
       {events.map((event) => {
         return <div key={event.address} className="w-[300px] mb-10 text-gray-800 shadow-xl card bg-base-100">
-          <figure><Image width={300} height={300} src={event.coverURL} alt="cover" /></figure>
+          <figure><Image width={300} height={300} objectFit='contain' src={event.coverURL} alt="cover" /></figure>
           <div className="card-body">
             <h2 className="card-title">{event.name}</h2>
             <p>{event.description}</p>

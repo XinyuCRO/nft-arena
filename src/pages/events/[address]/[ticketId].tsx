@@ -46,7 +46,7 @@ const Ticket = () => {
 
   return <div className='flex flex-col items-center justify-center bg-white'>
     <div className="mt-10 shadow-xl card card-side bg-base-100">
-      <figure><Image width={300} height={300} src={event.coverURL} alt="cover" /></figure>
+      <figure><Image width={300} height={300} objectFit='contain' src={event.coverURL} alt="cover" /></figure>
       <div className="card-body">
         <h2 className="card-title">{event.name}</h2>
         <p>{event.description}</p>
