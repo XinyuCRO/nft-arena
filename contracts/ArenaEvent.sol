@@ -112,7 +112,6 @@ contract ArenaEvent is ERC721Enumerable, Ownable {
     for (uint i = 0; i < tickets.length; i++) {
       if(tickets[i].id == tokenId) {
         if (!tickets[i].isCheckedIn) {
-          // todo: verify
           tickets[i].isCheckedIn = true;
           delete _userTicketMap[ticketOwner][i];
           _userTicketMap[ticketOwner].push(tickets[i]);
