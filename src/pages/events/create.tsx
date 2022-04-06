@@ -96,9 +96,7 @@ const EventsPage = () => {
     } catch (e) {
       setIsIpfsUploadSuccess(false);
       onError(e);
-      message.error({
-        message: "Upload image failed",
-      });
+      message.error("Upload image failed");
     }
   };
 

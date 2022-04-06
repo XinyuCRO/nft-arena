@@ -63,6 +63,7 @@ const CheckIn = () => {
                 event: scanData.event,
                 tokenId: scanData.ticketId,
                 owner: account,
+                sig: scanData.signature
               }).then((tx) => {
                 setTxHash(tx);
                 setScanData(undefined)
